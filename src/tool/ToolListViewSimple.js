@@ -1,0 +1,48 @@
+import React, { useContext } from 'react';
+import { ToolListContext } from './toolListProvider';
+import { Card, Row, Col, Button } from 'react-bootstrap';
+
+function ToolListViewSimple({ onSelectTool }) {
+  const ctx = useContext(ToolListContext);
+  const toolList = ctx?.toolList;
+  
+
+  
+  if (!toolList) return <div>Loading tools...</div>;
+
+  return (
+    <>
+      {toolList.length === 0 ? (
+        <div>Neexistují žádné pomůcky</div>
+      ) : (
+        <Row xs={1} className="g-1">
+          {toolList.map((tool) => (
+            <Col >
+              <Card key={tool.id}>
+                <Card.Body>
+                    <Row>
+                        <Col>
+                            <Card.Title>{tool.name}</Card.Title>
+                        </Col>
+                        <Col>
+                            <div className="d-flex justify-content-end"><strong>Count:</strong> {tool.count}</div>
+                        </Col>
+                        <Col>
+                            <div className="d-flex justify-content-end">
+                            <Button variant="outline-primary" size="sm" onClick={() => onSelectTool(tool)}>
+                            Vybrat
+                            </Button>
+                            </div>
+                        </Col>
+                  </Row>
+                </Card.Body>
+              </Card>
+            </Col>
+          ))}
+        </Row>
+      )}
+    </>
+  );
+}
+
+export default ToolListViewSimple;

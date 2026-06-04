@@ -1,0 +1,148 @@
+import logo from './logo.svg';
+import './App.css';
+import { useEffect, useState } from 'react';
+  
+function App() {
+  const [result, setResult] = useState(null);
+  useEffect(() => {
+    const sendData = async () => {
+      try {
+        /*const response = await fetch('http://localhost:3000/tool/create', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({
+            name: 'zbijecka',
+            count: 3
+          })*/
+
+         /*const response = await fetch('http://localhost:3000/tool/get', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({
+            toolId: "0ca0a0984d8f8c81dfd702407a6b97a4"
+          })*/
+
+         /*const response = await fetch('http://localhost:3000/tool/getAll', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          }*/
+          /*const response = await fetch('http://localhost:3000/tool/update', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({
+            toolId: "0ca0a0984d8f8c81dfd702407a6b97a4",
+            count: 10
+          })*/
+
+          /*const response = await fetch('http://localhost:3000/tool/remove', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({
+            toolId: "23b88ced6cdcff8147257e2e846d79d4"
+          })*/
+
+         /*const response = await fetch('http://localhost:3000/employee/create', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({
+            firstName: "John",
+            lastName: "Doe",
+            age: 30,
+            department: "Engineering"
+          })*/
+
+         /*const response = await fetch('http://localhost:3000/employee/get', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({
+            employeeId: "b6f177477e3cbc25db357f61d26c85ce"
+          })*/
+
+         /*const response = await fetch('http://localhost:3000/employee/getAll', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          }*/
+         /*const response = await fetch('http://localhost:3000/employee/getByToolId', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({
+            toolId: "0ca0a0984d8f8c81dfd702407a6b97a4"
+          })*/
+         
+         const response = await fetch('http://localhost:3000/employee/update', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({
+            employeeId: "c008130576bf298a1279cb4e54f59a20",
+            toolId: "none"
+            //toolId: "0ca0a0984d8f8c81dfd702407a6b97a4"
+          })
+
+
+
+
+        });
+
+        if (!response.ok) {
+          throw new Error('Request failed');
+        }
+
+        const data = await response.json();
+        setResult(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    sendData();
+  }, []);
+
+  /*return (
+    <div className="App">
+      <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+        <p>
+          Edit <code>src/App.js</code> and save to reload.
+        </p>
+        <a
+          className="App-link"
+          href="https://reactjs.org"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Learn React
+        </a>
+      </header>
+    </div>
+  );*/
+}
+
+export default App;

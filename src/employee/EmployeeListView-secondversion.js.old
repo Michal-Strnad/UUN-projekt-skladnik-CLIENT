@@ -1,0 +1,131 @@
+import React, { useContext } from 'react';
+import { EmployeeListContext } from './employeeListProvider';
+import { Col, Row, Card, Button } from 'react-bootstrap';
+import fetchHelper from '../fetchHelper';
+import { ToolListContext } from '../tool/toolListProvider';
+import { useLocation } from 'react-router-dom';
+
+function EmployeeListView( { onSelectEmployee }) {
+    const location = useLocation();
+    const isDashboardPage = location.pathname === '/';
+    const isEmployeeListPage = location.pathname === '/employeeList';
+    const isBorrowFormPage = location.pathname === '/employeeBorrow';
+
+    const ctx = useContext(EmployeeListContext);
+    const employeeList = ctx?.employeeList;
+
+    const ctxTool = useContext(ToolListContext);
+    const fetchToolList = ctxTool?.fetchToolList;
+  const fetchEmployeeList = ctx?.fetchEmployeeList;
+  const fetchEmployeeListByToolId = ctx?.fetchEmployeeListByToolId;
+  const setEmployeeList = ctx?.setEmployeeList;
+
+    async function cancelBorrow(empId) {
+        // Najít zaměstanance v našem lokálním seznamu, abychom získali jeho aktuální toolId před aktualizací
+        const emp = employeeList.find(e => e.id === empId);
+        const previousToolId = emp.toolId;
+
+        // Odstranit zaměstnance z našeho lokálního seznamu
+        if (typeof setEmployeeList === 'function') {
+          setEmployeeList(prev => prev.filter(e => e.id !== empId));
+        }
+
+        //Nastavit toolId u zaměstnance na 'none' pro zrušení zapůjčení
+        const res = await fetchHelper.employee.update({ employeeId: empId, toolId: 'none' });
+
+        if (!res || !res.ok) {
+          // Pokud update neproběhne, vrať seznam do původního stavu
+          if (previousToolId && typeof fetchEmployeeListByToolId === 'function') {
+            await fetchEmployeeListByToolId(previousToolId);
+          } else if (typeof fetchEmployeeList === 'function') {
+            await fetchEmployeeList();
+          }
+          return;
+        }
+
+        if (typeof fetchToolList === 'function') await fetchToolList();
+
+        // Ensure remote refresh for the affected tool
+        if (previousToolId && typeof fetchEmployeeListByToolId === 'function') {
+          await fetchEmployeeListByToolId(previousToolId);
+        } else if (typeof fetchEmployeeList === 'function') {
+          await fetchEmployeeList();
+        }
+    }
+
+    async function removeEmployee(empId) {
+        // find the employee to get their current toolId before removal
+        const emp = employeeList.find(e => e.id === empId);
+        const previousToolId = emp ? emp.toolId : null;
+
+        // Optimistically remove locally
+        if (typeof setEmployeeList === 'function') {
+          setEmployeeList(prev => prev.filter(e => e.id !== empId));
+        }
+
+        const res = await fetchHelper.employee.remove({ employeeId: empId });
+
+        if (!res || !res.ok) {
+          // if removal failed, re-fetch to restore correct state
+          if (previousToolId && typeof fetchEmployeeListByToolId === 'function') {
+            await fetchEmployeeListByToolId(previousToolId);
+          } else if (typeof fetchEmployeeList === 'function') {
+            await fetchEmployeeList();
+          }
+          return;
+        }
+
+        if (previousToolId && typeof fetchEmployeeListByToolId === 'function') {
+          await fetchEmployeeListByToolId(previousToolId);
+        } else if (typeof fetchEmployeeList === 'function') {
+          await fetchEmployeeList();
+        }
+    }
+
+  if (!employeeList) return <div>Loading employees...</div>;
+
+  return (
+    <Row xs={1} className="g-1">
+      {employeeList.map(emp => (
+        <Col key={emp.id}>
+          <Card>
+            <Card.Body>
+                <Row>
+                    <Col>
+                        {emp.firstName} {emp.lastName}
+                    </Col>
+                    <Col>
+                        {emp.age}
+                    </Col>
+                    <Col>
+                        {emp.department}
+                    </Col>
+                    <Col>
+                        <div className="d-flex justify-content-end">
+                        {isEmployeeListPage && (
+                            <Button variant="outline-primary" size="sm" onClick={() => removeEmployee(emp.id)}>
+                              Vymazat
+                            </Button>
+                          )}
+                        {isDashboardPage && (
+                            <Button variant="outline-primary" size="sm" onClick={() => cancelBorrow(emp.id)}>
+                              Odebrat
+                            </Button>
+                          )}
+                        {isBorrowFormPage && emp.toolId === 'none' && (
+                            <Button variant="outline-primary" size="sm" onClick={() => onSelectEmployee(emp)}>
+                              Vybrat
+                            </Button>
+                          )}
+                        </div>
+                    </Col>
+              </Row>
+            </Card.Body>
+          </Card>
+        </Col>
+      ))}
+    </Row>
+  );
+}
+
+export default EmployeeListView;

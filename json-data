@@ -1,0 +1,72 @@
+Tool create
+
+dToIn = {
+    type: "object",
+    properties: {
+        name: { type: "string" },
+        count: { type: "number" }
+    },
+    required: ["name", "count"]
+};
+
+Tool get
+
+dToIn = {
+    type: "object",
+    properties: {
+        toolId: { type: "string" }
+    },
+    required: ["toolId"],
+    additionalProperties: false
+};
+
+Tool update //pouze count
+
+---------------------------------------------------
+
+Employee create
+
+dToIn = {
+    type: "object",
+    properties: {
+        firstName: { type: "string"},
+        lastName: { type: "string"},
+        age: { type: "number" },
+        department: { type: "string" }
+    },
+    required: ["firstName", "lastName", "age", "department"]
+}; 
+
+Employee get
+
+dToIn = {
+    type: "object",
+    properties: {
+        employeeId: { type: "string" }
+    },
+    required: ["employeeId"],
+    additionalProperties: false
+};
+
+Employee getByToolId
+
+dToIn = {
+    type: "object",
+    properties: {
+        toolId: { type: "string" }
+    },
+    required: ["toolId"],
+    additionalProperties: false
+};
+
+Employee update //pouze pomucka
+
+dToIn = {
+    type: "object",
+    properties: {
+        employeeId: { type: "string" },
+        toolId: { type: "string" }
+    },
+    required: ["employeeId", "toolId"],
+    additionalProperties: false
+};
