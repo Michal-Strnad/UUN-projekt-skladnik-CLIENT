@@ -98,7 +98,6 @@ function ToolListView() {
         <Row xs={1} className="g-1">
         <h1>Dostupné pomůcky</h1>
           {toolList.map((tool) => (
-            (employeeCounts[tool.id] < tool.count) && (
             <Col key={tool.id}>
                 <Card>
                 <Card.Body>
@@ -107,7 +106,9 @@ function ToolListView() {
                             <Card.Title>{tool.name}</Card.Title>
                         </Col>
                         <Col>
-                            <div className="d-flex justify-content-end">{tool.count - employeeCounts[tool.id]} / {tool.count}</div>
+                            {(tool.count - employeeCounts[tool.id]) > 0 ? (
+                                <div className="d-flex justify-content-end">{(tool.count - employeeCounts[tool.id])} / {tool.count}</div>
+                            ) : (<div className="d-flex justify-content-end text-danger">{(tool.count - employeeCounts[tool.id])} / {tool.count}</div>)}
                         </Col>
                         <Col>
                             <div className="d-flex justify-content-end">
@@ -131,7 +132,7 @@ function ToolListView() {
                   />
                 )}
             </Col>
-          )))}
+          ))}
         </Row>
       )}
     </>

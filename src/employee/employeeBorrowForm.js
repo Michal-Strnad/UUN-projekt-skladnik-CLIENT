@@ -27,16 +27,13 @@ function EmployeeBorrowForm() {
     }
     setLoading(true);
     try {
-      // adjust payload to your backend contract
       const payload = {
         employeeId: selectedEmployee.id,
         toolId: selectedTool.id,
       };
       const res = await fetchHelper.employee.update(payload);
-      // check res.ok, show message, etc.
       if (res.ok) {
         setMessage({ type: 'success', text: 'Borrow recorded' });
-        // optionally refresh lists (call parent functions or providers)
       } else {
         setMessage({ type: 'error', text: 'Server error: ' + res.data.message });
       }

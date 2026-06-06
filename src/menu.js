@@ -8,7 +8,6 @@ function Menu() {
     return (
         <Navbar bg="light" expand="lg">
             <Container>
-                <button type="button" class="btn btn-success">Test</button>
                 <Navbar.Brand href="#" onClick={() => navigate('/')}>Skladnik 1.0.0</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">

@@ -13,11 +13,6 @@ function Dashboard() {
             </Row>
             <Row>
                 <Col>
-                    <h1>----</h1>
-                </Col>
-            </Row>
-            <Row>
-                <Col>
                     <ToolListProvider>
                         <ToolListView />
                     </ToolListProvider>
