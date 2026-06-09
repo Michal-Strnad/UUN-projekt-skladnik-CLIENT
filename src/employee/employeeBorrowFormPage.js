@@ -1,6 +1,8 @@
 import { Container, Row, Col } from 'react-bootstrap'
 import  Menu  from '../menu'
 import EmployeeBorrowForm from './employeeBorrowForm';
+import EmployeeListProvider from './employeeListProvider';
+import ToolListProvider from '../tool/toolListProvider';
 
 function EmployeeBorrowFormPage() {
     return (
@@ -12,7 +14,11 @@ function EmployeeBorrowFormPage() {
             </Row>
             <Row>
                 <Col>
-                    <EmployeeBorrowForm />
+                <EmployeeListProvider>
+                    <ToolListProvider>
+                        <EmployeeBorrowForm />
+                    </ToolListProvider>
+                </EmployeeListProvider>
                 </Col>
             </Row>
         </Container>

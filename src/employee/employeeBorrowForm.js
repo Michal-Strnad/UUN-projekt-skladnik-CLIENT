@@ -1,12 +1,10 @@
-import React, { useState } from 'react';
-import { useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { EmployeeListContext } from './employeeListProvider';
 import { ToolListContext } from '../tool/toolListProvider';
-import ToolListProvider from '../tool/toolListProvider';
 import ToolListViewSimple from '../tool/ToolListViewSimple';
-import EmployeeListView from '../employee/EmployeeListView';
+import EmployeeListView from './EmployeeListView';
 import fetchHelper from '../fetchHelper';
-import EmployeeListProvider from './employeeListProvider';
+import { Button } from 'react-bootstrap';
 
 function EmployeeBorrowForm() {
   const [selectedTool, setSelectedTool] = useState(null);
@@ -35,7 +33,7 @@ function EmployeeBorrowForm() {
       if (res.ok) {
         setMessage({ type: 'success', text: 'Borrow recorded' });
       } else {
-        setMessage({ type: 'error', text: 'Server error: ' + res.data.message });
+        setMessage({ type: 'error', text: 'Server error: ' + (res.data?.message ?? res.status) });
       }
     } finally {
       setLoading(false);
@@ -50,17 +48,12 @@ function EmployeeBorrowForm() {
       <div style={{ display: 'flex', gap: 16 }}>
         <div style={{ flex: 1 }}>
           <h4>Tools</h4>
-          <ToolListProvider>
-            <ToolListViewSimple onSelectTool={tool => setSelectedTool(tool)} />
-          </ToolListProvider>
+          <ToolListViewSimple onSelectTool={tool => setSelectedTool(tool)} />
         </div>
 
         <div style={{ flex: 1 }}>
           <h4>Employees</h4>
-          <EmployeeListProvider>
-            <EmployeeListView onSelectEmployee={emp => setSelectedEmployee(emp)} />
-          </EmployeeListProvider>
-          
+          <EmployeeListView onSelectEmployee={emp => setSelectedEmployee(emp)} />
         </div>
       </div>
 
@@ -68,9 +61,9 @@ function EmployeeBorrowForm() {
         <div>Selected tool: {selectedTool?.name ?? '—'}</div>
         <div>Selected employee: {selectedEmployee?.firstName ?? '—'}</div>
 
-        <button onClick={handleBorrow} disabled={loading}>
-          {loading ? 'Processing...' : 'Borrow'}
-        </button>
+        <Button variant="primary" onClick={handleBorrow} disabled={loading}>
+          {loading ? 'Processing...' : 'Zapůjčit'}
+        </Button>
       </div>
       {message && (
           <div style={{ marginTop: 12, color: message.type === 'error' ? 'crimson' : 'green' }}>
