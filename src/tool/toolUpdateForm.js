@@ -39,23 +39,20 @@ function ToolUpdateForm({ tool, onClose, onUpdated }) { //onUpdated - funkce z t
     }
 
     async function handleDelete() {
-        if (!window.confirm('Are you sure you want to delete this tool?')) return;
+        if (!window.confirm('Opravdu chcete pomůcku smazat?')) return;
         setMessage(null);
 
         
         setLoading(true);
         try {
             const res = await fetchHelper.tool.remove({ toolId: tool.id });
-            if (typeof onUpdated === 'function') onUpdated();
-            onClose();
-            
-            /*if (res && res.ok) {
+            if (res && res.ok) {
                 setMessage({ type: 'success', text: 'Deleted' });
                 if (typeof onUpdated === 'function') onUpdated();
                 onClose();
             } else {
                 setMessage({ type: 'error', text: res?.data?.message || 'Delete failed' });
-            }*/
+            }
         } catch (err) {
             setMessage({ type: 'error', text: err.message || 'Delete failed' });
         } finally {
@@ -65,7 +62,7 @@ function ToolUpdateForm({ tool, onClose, onUpdated }) { //onUpdated - funkce z t
 
     return (
         <Modal show={true} onHide={onClose}>
-            <Form /*onSubmit={handleSubmit}*/>
+            <Form>
                 <Modal.Header closeButton>
                     <Modal.Title>Upravit pomůcku</Modal.Title>
                 </Modal.Header>
